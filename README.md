@@ -10,15 +10,9 @@ your windows.
 
 ## Status
 
-In under 50 lines of code, I've got something that can run both native
-Wayland programs and X11 programs via Xwayland (which is automatically
-launched on startup).
-
-Nothing else is implemented apart from the focus following the mouse
-cursor.
-
-In other words, this is currently a tiny proof of concept that can just
-about run a terminal.
+In a few hundred lines of code, I've got something that can run Lua
+code and host both Wayland and X11 programs. X11 compatibility is
+achieved through Xwayland.
 
 [wlc]: https://github.com/Cloudef/wlc
 
