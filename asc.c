@@ -41,7 +41,7 @@ lua_State *l; /* Has to be global, as it's used in callbacks */
     } else return; \
   }
 
-/* Outputs */
+/* Output Callbacks */
 CREATE_CALLBACK_HANDLER(output_created, bool, true, false, 1,
     _(wlc_handle output),
     asc_lua_push_handle(l, output))
@@ -81,7 +81,7 @@ CREATE_CALLBACK_HANDLER(output_context_destroyed, bool, true, false, 1,
     _(wlc_handle output),
     asc_lua_push_handle(l, output))
 
-/* Views */
+/* View Callbacks */
 CREATE_CALLBACK_HANDLER(view_created, bool, true, false, 1,
     _(wlc_handle view),
     asc_lua_push_handle(l, view))
@@ -97,18 +97,7 @@ CREATE_CALLBACK_HANDLER(view_focus, void, false, false, 2,
       lua_pushboolean(l, focus);
     } while (0))
 
-// static bool view_created(wlc_handle view) {
-//    wlc_view_set_mask(view, wlc_output_get_mask(wlc_view_get_output(view)));
-//    wlc_view_bring_to_front(view);
-//    return true;
-// }
-
-/*
-static void view_focus(wlc_handle view, bool focus) {
-   wlc_view_set_state(view, WLC_BIT_ACTIVATED, focus);
-}
-*/
-
+/* Input Callbacks */
 CREATE_CALLBACK_HANDLER(pointer_motion, bool, false, false, 3,
     _(wlc_handle view, uint32_t time, const struct wlc_point *pos),
     do {
@@ -152,12 +141,12 @@ int main(int argc, char *argv[]) {
   if (!wlc_init())
     return EXIT_FAILURE;
 
-  start_xwayland();
-
   if (!(l = asc_lua_init()))
     return EXIT_FAILURE;
 
   luaL_dofile(l, "conf.lua");
+
+  start_xwayland();
 
   wlc_run();
 
